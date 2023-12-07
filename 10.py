@@ -39,8 +39,7 @@ def work(part_1=True):
                     is_corrupt = True
                     break
         if q and not is_corrupt:
-            ending = ''.join(charmap[c] for c in reversed(q))
-            endings.append(ending)
+            endings.append(''.join(charmap[c] for c in reversed(q)))
     if part_1:
         return corrupted
     else:
