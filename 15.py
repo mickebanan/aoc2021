@@ -1,4 +1,4 @@
-import queue
+import heapq
 
 import helpers
 
@@ -49,7 +49,7 @@ def get_neighbors(y, x, part_1=True):
 @helpers.timer
 def walk(pos, end, part_1=True):
     distances = {}
-    pq = queue.PriorityQueue()
+    hq = []
     unvisited = set()
     for y in range((orig_ymax if part_1 else ymax) + 1):
         for x in range((orig_xmax if part_1 else xmax) + 1):
@@ -57,9 +57,9 @@ def walk(pos, end, part_1=True):
             distances[n] = 1e6
             unvisited.add(n)
     distances[pos] = 0
-    pq.put((0, pos))
+    heapq.heappush(hq, (0, pos))
     while unvisited:
-        u = pq.get()[1]
+        u = heapq.heappop(hq)[1]
         if u == end:
             return distances[end]
         unvisited.remove(u)
@@ -68,7 +68,7 @@ def walk(pos, end, part_1=True):
                 alt = distances[u] + get_value(*nn, part_1=part_1)
                 if alt < distances[nn]:
                     distances[nn] = alt
-                    pq.put((alt, nn))
+                    heapq.heappush(hq, (alt, nn))
 
 
 def p1():
